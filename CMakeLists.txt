@@ -15,10 +15,12 @@ set(CMAKE_EXECUTABLE_SUFFIX ".html" CACHE INTERNAL "")
 # This assumes the SDL source is available in vendored/SDL
 add_subdirectory(ext/SDL3 EXCLUDE_FROM_ALL)
 
-file(GLOB_RECURSE CPP_SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE CPP_SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 # Create your game executable target as usual
 add_executable(index ${CPP_SOURCE_FILES} ${IMGUI_SOURCE_FILES})
+
+target_link_options(index PUBLIC --shell-file ${CMAKE_SOURCE_DIR}/src/shell_minimal.html)
 
 # Link to the actual SDL3 library.
 target_link_libraries(index PRIVATE SDL3::SDL3)
