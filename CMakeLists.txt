@@ -45,3 +45,14 @@ target_include_directories(index PUBLIC ${IMGUI_INCLUDES})
 target_sources(index PUBLIC ${IMGUI_SOURCE_FILES})
 
 # ===================================================================
+# =                          SERVER FILES                           =
+# ===================================================================
+file(GLOB SERVER_FILES ${CMAKE_SOURCE_DIR}/public/*)
+
+foreach(SERVER_FILE ${SERVER_FILES})
+    add_custom_command(
+        TARGET index POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${SERVER_FILE}
+                ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endforeach()

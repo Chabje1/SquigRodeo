@@ -1,16 +1,15 @@
-OUTPUT_DIR:=build
-INDEX_HTML:=${OUTPUT_DIR}/server/index.html
+BUILD_DIR:=build
+OUTPUT_DIR:=${BUILD_DIR}/server
+INDEX_HTML:=${OUTPUT_DIR}/index.html
 
-${OUTPUT_DIR}: 
-	@emcmake cmake -S . -B ${OUTPUT_DIR}
+configure: 
+	@emcmake cmake -S . -B ${BUILD_DIR}
 
-${INDEX_HTML}: ${OUTPUT_DIR}
-	@cd ${OUTPUT_DIR} && emmake make
+build: configure
+	@cd ${BUILD_DIR} && emmake make
 
-build_all: ${INDEX_HTML}
-
-launch: build_all
-	@python3 -m http.server -d ${OUTPUT_DIR}/server
+launch: build
+	@cd ${OUTPUT_DIR} && http-server -p 5173 --cors
 
 clean:
-	@rm -rf ${OUTPUT_DIR}
+	@rm -rf ${BUILD_DIR}
