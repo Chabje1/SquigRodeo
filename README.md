@@ -6,9 +6,10 @@ A Warhammer Age of Sigmar - Soulbound by Cubicle 7 companion extension for Owlbe
 - SDL (submodule, https://github.com/libsdl-org/SDL)
 - imgui (submodule, https://github.com/ocornut/imgui)
 ### Optional
-- Python3 for `make launch`
+- http-server node package for `make launch` (https://www.npmjs.com/package/http-server)
 
 ## Make Commands
-- `make build_all`: Builds the HTML/WASM/JS
+- `make configure`: Does the CMake configuration step
+- `make build`: Builds the HTML/WASM/JS
 - `make launch`: Launches a simple server at http://0.0.0.0:8000/
 - `make clean`: Cleans the build dir
