@@ -10,6 +10,6 @@ A Warhammer Age of Sigmar - Soulbound by Cubicle 7 companion extension for Owlbe
 
 ## Make Commands
 - `make configure`: Does the CMake configuration step
-- `make build`: Builds the HTML/WASM/JS
-- `make launch`: Launches a simple server at http://0.0.0.0:8000/
+- `make build`: Builds the HTML/WASM/JS + copies files from public into the server directory
+- `make launch`: Launches a simple server at http://0.0.0.0:5173/
 - `make clean`: Cleans the build dir
