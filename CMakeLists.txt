@@ -6,6 +6,7 @@ project(squigrodeo)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/server/$<CONFIGURATION>")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/server/$<CONFIGURATION>")
 
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 0)
 
@@ -19,6 +20,8 @@ file(GLOB_RECURSE CPP_SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 # Create your game executable target as usual
 add_executable(index ${CPP_SOURCE_FILES} ${IMGUI_SOURCE_FILES})
+
+target_include_directories(index PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 target_link_options(index PUBLIC --shell-file ${CMAKE_SOURCE_DIR}/src/shell_minimal.html)
 
