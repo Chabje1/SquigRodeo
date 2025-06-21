@@ -3,7 +3,7 @@ OUTPUT_DIR:=${BUILD_DIR}/server
 INDEX_HTML:=${OUTPUT_DIR}/index.html
 
 ext/emsdk/upstream/emscripten:
-	@cd ext/emsdk && ./emsdk install latest && ./emsdk activate latest && source ./emsdk_env.sh
+	@cd ext/emsdk && ./emsdk install latest && ./emsdk activate latest && . ./emsdk_env.sh
 
 .PHONY: configure
 configure: ext/emsdk/upstream/emscripten
