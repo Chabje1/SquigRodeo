@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Checkout Submodules
-        run: git submodule update --recursive
+        uses: jwsi/submodule-checkout@v1
       - name: Build WebAssembly
         run: make build
       - name: Setup Pages
