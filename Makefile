@@ -7,11 +7,11 @@ ext/emsdk/upstream/emscripten:
 
 .PHONY: configure
 configure: ext/emsdk/upstream/emscripten
-	@pushd ext/emsdk && . ./emsdk_env.sh && popd && emcmake cmake -S . -B ${BUILD_DIR}
+	@cd ext/emsdk && . ./emsdk_env.sh && cd ../.. && emcmake cmake -S . -B ${BUILD_DIR}
 
 .PHONY: build
 build: configure
-	@pushd ext/emsdk && . ./emsdk_env.sh && popd && cd ${BUILD_DIR} && emmake make
+	@cd ext/emsdk && . ./emsdk_env.sh && cd ../../${BUILD_DIR} && emmake make
 
 .PHONY: launch
 launch: build
