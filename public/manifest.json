@@ -1,3 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-  <circle cx="12" cy="12" r="9" fill="none" fill-rule="evenodd" stroke="#000" stroke-width="2" />
-</svg>
+{
+  "name": "SquigRodeo",
+  "version": "0.0.1",
+  "manifest_version": 1,
+  "action": {
+    "title": "SquigRodeo - Soulbound Companion",
+    "icon": "/icon.svg",
+    "popover": "/",
+    "height": 600,
+    "width": 800
+  }
+}
