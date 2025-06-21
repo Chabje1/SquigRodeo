@@ -3,15 +3,15 @@ OUTPUT_DIR:=${BUILD_DIR}/server
 INDEX_HTML:=${OUTPUT_DIR}/index.html
 
 ext/emsdk/upstream/emscripten:
-	@cd ext/emsdk && ./emsdk install latest && ./emsdk activate latest && . ./emsdk_env.sh
+	@cd ext/emsdk && ./emsdk install latest && ./emsdk activate latest
 
 .PHONY: configure
 configure: ext/emsdk/upstream/emscripten
-	@emcmake cmake -S . -B ${BUILD_DIR}
+	@. ./ext/emsdk/emsdk_env.sh && emcmake cmake -S . -B ${BUILD_DIR}
 
 .PHONY: build
 build: configure
-	@cd ${BUILD_DIR} && emmake make
+	@. ./ext/emsdk/emsdk_env.sh && cd ${BUILD_DIR} && emmake make
 
 .PHONY: launch
 launch: build
