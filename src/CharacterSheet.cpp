@@ -1,6 +1,7 @@
-#include "Character.hpp"
+#include "CharacterSheet.hpp"
 
 #include "imgui.h"
+#include "imgui_stdlib.h"
 
 void squigrodeo::SkillTable::render() {
     if (ImGui::BeginTable(tableName.data(), 3)) {
@@ -144,18 +145,19 @@ int squigrodeo::AttributeTable::getCost() {
     return totalCost;
 }
 
-void squigrodeo::CharacterSheet::render() {
+void squigrodeo::CharacterSheet::renderEditor() {
     // Display Character Name
     ImGui::Text("Character Name: ");
     ImGui::SameLine();
-    ImGui::InputText(("##" + charName + "_display_name").data(),
-                     displayCharName.data(), MAX_CHAR_NAME_SIZE);
+    ImGui::InputText(("##" + charName + "_display_name").data(), &charName);
 
     // Display XP
     int remainingXp = xpCount - getCost();
     ImGui::Text("XP: %d / ", remainingXp);
     ImGui::SameLine();
     ImGui::InputInt(("##" + charName + "_xp").data(), &xpCount);
+
+    ImGui::Separator();
 
     // Left Child Window
     ImGui::BeginChild((charName + "_child_l").data(),
@@ -172,13 +174,32 @@ void squigrodeo::CharacterSheet::render() {
 
     attributes.render();
 
+    ImGui::Separator();
+
     // Display Currency
     ImGui::Text("Aqua Ghyranis");
     ImGui::SameLine();
     ImGui::InputInt(("##" + charName + "_aqua_ghyranis").data(), &aquaGhyranis);
 
+    // Display Short Term Goal
+    ImGui::Text("Short Term Goal");
+    ImGui::InputTextMultiline(("##" + charName + "_short_term_goal").data(),
+                              &shortTermGoal,
+                              ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 8));
+
+    // Display Long Term Goal
+    ImGui::Text("Long Term Goal");
+    ImGui::InputTextMultiline(("##" + charName + "_long_term_goal").data(),
+                              &longTermGoal,
+                              ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 8));
     ImGui::EndChild();
 }
+
+void squigrodeo::CharacterSheet::renderViewer() {
+    // TODO
+}
+
+std::string squigrodeo::CharacterSheet::getName() { return charName; }
 
 int squigrodeo::CharacterSheet::getCost() {
     int totalCost = 0;

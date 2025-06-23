@@ -5,6 +5,8 @@
 #include <string>
 
 #include "CharacterConstants.hpp"
+#include "MADTable.hpp"
+#include "Viewable.hpp"
 
 namespace squigrodeo {
 
@@ -47,27 +49,41 @@ struct AttributeTable {
     int getCost();
 };
 
-struct CharacterSheet {
+struct Talent {
+    std::string name;
+    std::string description;
+};
+
+class CharacterSheet : public Viewable {
+   public:
     CharacterSheet(const std::string &name)
         : charName{name},
           skills{name + "_skills"},
-          attributes{name + "_attributes"} {
-        strcpy(displayCharName.data(), name.data());
-    }
+          attributes{name + "_attributes"} {}
 
+    // Render Functions
+    void renderViewer() override;
+    void renderEditor() override;
+
+    // Getter Functions
+    int getCost();
+    std::string getName() override;
+
+   private:
     // Character Name
     std::string charName;
-    std::array<char, MAX_CHAR_NAME_SIZE> displayCharName;
 
+    // Things that cost XP
     SkillTable skills;
     AttributeTable attributes;
-    int aquaGhyranis = 0;
     int xpCount = 35;
 
-    // Render Function
-    void render();
+    // Things that don't
+    int aquaGhyranis = 200;
+    std::string shortTermGoal;
+    std::string longTermGoal;
 
-    // Cost Function
-    int getCost();
+    // MAD Table
+    MADTable mad;
 };
 }  // namespace squigrodeo

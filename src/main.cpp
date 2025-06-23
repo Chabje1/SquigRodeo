@@ -25,7 +25,7 @@
 #include "examples/libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
-#include "Character.hpp"
+#include "CharacterSheet.hpp"
 
 // Main code
 int main(int, char**) {
@@ -81,7 +81,7 @@ int main(int, char**) {
                                    SDL_WINDOW_HIDDEN |
                                    SDL_WINDOW_HIGH_PIXEL_DENSITY;
     SDL_Window* window = SDL_CreateWindow(
-        "Dear ImGui SDL3+OpenGL3 example", (int)(1280 * main_scale),
+        "SquigRodeo - Soulbound Companion", (int)(1280 * main_scale),
         (int)(720 * main_scale), window_flags);
     if (window == nullptr) {
         printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
@@ -216,9 +216,9 @@ int main(int, char**) {
         ImGui::SetNextWindowPos(viewport->WorkPos);
         ImGui::SetNextWindowSize(viewport->WorkSize);
 
-        ImGui::Begin("Hello, world!", nullptr, flags);
+        ImGui::Begin("SquigRodeo", nullptr, flags);
 
-        aChar.render();
+        aChar.renderEditor();
 
         ImGui::End();
 
