@@ -73,6 +73,7 @@ class CharacterSheet : public Viewable {
     int getTotalToughness();
     int getTotalMettle();
     int getTotalWounds();
+    int getNaturalAwareness();
 
    private:
     // Update MAD Stats

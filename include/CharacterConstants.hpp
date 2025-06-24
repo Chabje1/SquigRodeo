@@ -6,8 +6,9 @@
 
 namespace squigrodeo {
 
-constexpr uint8_t WEAPON_SKILL_INDEX = 23;
+constexpr uint8_t AWARENESS_SKILL_INDEX = 2;
 constexpr uint8_t BALLISTIC_SKILL_INDEX = 3;
+constexpr uint8_t WEAPON_SKILL_INDEX = 23;
 constexpr uint8_t REFLEXES_SKILL_INDEX = 19;
 
 constexpr auto SKILL_NAMES = std::to_array<std::string_view>(
