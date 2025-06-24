@@ -96,7 +96,7 @@ void squigrodeo::SkillTable::render() {
     }
 }
 
-int squigrodeo::SkillTable::getCost() {
+int squigrodeo::SkillTable::getUsedXP() {
     int totalCost = 0;
 
     for (std::size_t idx = 0; idx < skillValues.size(); ++idx) {
@@ -133,7 +133,7 @@ void squigrodeo::AttributeTable::render() {
     }
 }
 
-int squigrodeo::AttributeTable::getCost() {
+int squigrodeo::AttributeTable::getUsedXP() {
     int totalCost = 0;
 
     totalCost += ATTRIBUTE_COST_PER_LEVEL[body];
@@ -152,7 +152,7 @@ void squigrodeo::CharacterSheet::renderEditor() {
     ImGui::InputText(("##" + charName + "_display_name").data(), &charName);
 
     // Display XP
-    int remainingXp = xpCount - getCost();
+    int remainingXp = xpCount - getUsedXP();
     ImGui::Text("XP: %d / ", remainingXp);
     ImGui::SameLine();
     ImGui::InputInt(("##" + charName + "_xp").data(), &xpCount);
@@ -181,6 +181,18 @@ void squigrodeo::CharacterSheet::renderEditor() {
     ImGui::SameLine();
     ImGui::InputInt(("##" + charName + "_aqua_ghyranis").data(), &aquaGhyranis);
 
+    // Set MAD Stats
+    setMADStats();
+
+    // Display MAD Table
+    mad.renderEditor();
+
+    // Display Has Shield? Checkbox
+    ImGui::Text("Has Shield?");
+    ImGui::SameLine();
+    ImGui::Checkbox(("Toggle##" + charName + "_has_shield_toggle").data(),
+                    &hasShield);
+
     // Display Short Term Goal
     ImGui::Text("Short Term Goal");
     ImGui::InputTextMultiline(("##" + charName + "_short_term_goal").data(),
@@ -201,11 +213,26 @@ void squigrodeo::CharacterSheet::renderViewer() {
 
 std::string squigrodeo::CharacterSheet::getName() { return charName; }
 
-int squigrodeo::CharacterSheet::getCost() {
+int squigrodeo::CharacterSheet::getUsedXP() {
     int totalCost = 0;
 
-    totalCost += skills.getCost();
-    totalCost += attributes.getCost();
+    totalCost += skills.getUsedXP();
+    totalCost += attributes.getUsedXP();
 
     return totalCost;
+}
+
+void squigrodeo::CharacterSheet::setMADStats() {
+    mad.melee = (attributes.body +
+                 skills.skillValues[WEAPON_SKILL_INDEX].training - 1) /
+                2;
+
+    mad.accuracy = (attributes.mind +
+                    skills.skillValues[BALLISTIC_SKILL_INDEX].training - 1) /
+                   2;
+
+    mad.defence = (attributes.body +
+                   skills.skillValues[REFLEXES_SKILL_INDEX].training - 1) /
+                      2 +
+                  (hasShield ? 1 : 0);
 }

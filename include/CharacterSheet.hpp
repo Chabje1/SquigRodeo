@@ -28,7 +28,7 @@ struct SkillTable {
     void render();
 
     // Cost Function
-    int getCost();
+    int getUsedXP();
 };
 
 struct AttributeTable {
@@ -38,15 +38,15 @@ struct AttributeTable {
     std::string tableName;
 
     // Attributes
-    int body = 0;
-    int mind = 0;
-    int soul = 0;
+    int body = 1;
+    int mind = 1;
+    int soul = 1;
 
     // Render Function
     void render();
 
     // Cost Function
-    int getCost();
+    int getUsedXP();
 };
 
 struct Talent {
@@ -59,17 +59,25 @@ class CharacterSheet : public Viewable {
     CharacterSheet(const std::string &name)
         : charName{name},
           skills{name + "_skills"},
-          attributes{name + "_attributes"} {}
+          attributes{name + "_attributes"},
+          mad{name + "_mad"} {}
 
     // Render Functions
     void renderViewer() override;
     void renderEditor() override;
 
     // Getter Functions
-    int getCost();
+    int getUsedXP();
     std::string getName() override;
+    int getIniative();
+    int getTotalToughness();
+    int getTotalMettle();
+    int getTotalWounds();
 
    private:
+    // Update MAD Stats
+    void setMADStats();
+
     // Character Name
     std::string charName;
 
@@ -77,13 +85,20 @@ class CharacterSheet : public Viewable {
     SkillTable skills;
     AttributeTable attributes;
     int xpCount = 35;
+    int numberOfTalents = 0;
 
     // Things that don't
     int aquaGhyranis = 200;
     std::string shortTermGoal;
     std::string longTermGoal;
 
+    int remainingMettle = 0;
+    int remainingToughness = 0;
+    int remainingWounds = 0;
+    int armour = 0;
+
     // MAD Table
     MADTable mad;
+    bool hasShield = false;
 };
 }  // namespace squigrodeo
