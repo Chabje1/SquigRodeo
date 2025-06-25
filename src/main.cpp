@@ -25,7 +25,7 @@
 #include "examples/libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
-#include "CharacterSheet.hpp"
+#include "CompanionApp.hpp"
 
 // Main code
 int main(int, char**) {
@@ -161,7 +161,8 @@ int main(int, char**) {
 
     // Main loop
     bool done = false;
-    squigrodeo::CharacterSheet aChar("Stellia");
+    bool isGM = false;
+    squigrodeo::CompanionApp app(isGM);
 
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not
@@ -218,7 +219,7 @@ int main(int, char**) {
 
         ImGui::Begin("SquigRodeo", nullptr, flags);
 
-        aChar.renderEditor();
+        app.renderMainMode();
 
         ImGui::End();
 

@@ -258,7 +258,9 @@ void squigrodeo::CharacterSheet::renderEditor() {
     setMADStats();
 
     // Display MAD Table
+    ImGui::BeginDisabled();
     mad.renderEditor();
+    ImGui::EndDisabled();
 
     // Display Has Shield? Checkbox
     ImGui::Text("Has Shield?");

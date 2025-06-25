@@ -11,7 +11,6 @@ void squigrodeo::MADTable::renderViewer() {
 }
 
 void squigrodeo::MADTable::renderEditor() {
-    ImGui::BeginDisabled();
     if (ImGui::BeginTable(tableName.data(), 3)) {
         // Setup Column Headers
         ImGui::TableSetupColumn("Melee");
@@ -32,5 +31,4 @@ void squigrodeo::MADTable::renderEditor() {
                        VALUES_STR, squigrodeo::MADTable::NUM_MAD_VALUES);
         ImGui::EndTable();
     }
-    ImGui::EndDisabled();
 }
