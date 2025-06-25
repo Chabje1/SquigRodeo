@@ -82,6 +82,10 @@ void squigrodeo::CompanionApp::renderMainMode() {
             successes);
         sendMessage();
     }
+
+    if (chatMessageHead >= MAX_MESSAGE_HISTORY_SIZE) {
+        chatMessageHead = 0;
+    }
 }
 
 int squigrodeo::CompanionApp::rollDice() {
