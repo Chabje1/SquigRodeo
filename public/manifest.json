@@ -4,8 +4,8 @@
   "manifest_version": 1,
   "action": {
     "title": "SquigRodeo - Soulbound Companion",
-    "icon": "/SquigRodeo/icon.svg",
-    "popover": "/SquigRodeo",
+    "icon": "/icon.svg",
+    "popover": "/",
     "height": 600,
     "width": 800
   }

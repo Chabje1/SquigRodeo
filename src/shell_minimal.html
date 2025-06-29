@@ -16,6 +16,9 @@
   <body>
     <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"/>
 
+    <script async type="text/javascript" src="ObrSdkWrapper.js"></script>
+    <script async type="text/javascript" src="obr_sdk_bundle.js"></script>
+
     <script type='text/javascript'>
         var Module = {
             canvas: (function() { return document.getElementById('canvas'); })()

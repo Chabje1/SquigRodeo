@@ -1,14 +1,30 @@
 #include "CompanionApp.hpp"
 
+#include <exception>
+
 #include "imgui.h"
 
 constexpr int COMPANION_SIDE2SIDE_WINDOW_LENGTHS = 260;
 
-squigrodeo::CompanionApp::CompanionApp(bool gmFlag)
-    : isGM{gmFlag},
+squigrodeo::CompanionApp::CompanionApp(emscripten_obr_sdk::OBR iOBR)
+    : OBR{iOBR},
       randomDevice{},
       engine{randomDevice()},
-      d6Distribution{1, 6} {}
+      d6Distribution{1, 6},
+      unsubscribeChatMessages{OBR.broadcast.onMessage<std::string>(
+          "chatMessages",
+          std::bind(&squigrodeo::CompanionApp::chatMessageCallback, this,
+                    std::placeholders::_1))} {
+    std::string role = OBR.player.getRole();
+
+    if (role == "GM") {
+        isGM = true;
+    } else if (role == "PLAYER") {
+        isGM = false;
+    } else {
+        throw new std::invalid_argument("Unknown Role!!!!");
+    }
+}
 
 void squigrodeo::CompanionApp::renderMainMode() {
     //
@@ -101,5 +117,13 @@ int squigrodeo::CompanionApp::rollDice() {
 void squigrodeo::CompanionApp::sendMessage() {
     // Copy message into local ring
     strcpy(chatMessages[chatMessageHead], tempMessageBuffer);
+    ++chatMessageHead;
+
+    OBR.broadcast.sendMessage("chatMessages", std::string(tempMessageBuffer));
+}
+
+void squigrodeo::CompanionApp::chatMessageCallback(
+    emscripten_obr_sdk::MessageEvent<std::string> event) {
+    strcpy(chatMessages[chatMessageHead], event.data.data());
     ++chatMessageHead;
 }

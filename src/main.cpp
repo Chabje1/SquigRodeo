@@ -25,7 +25,21 @@
 #include "examples/libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
+#include <emscripten/bind.h>
+#include <emscripten/val.h>
+
+#include <iostream>
+
 #include "CompanionApp.hpp"
+#include "obr_sdk_wrapper/OBR.hpp"
+
+enum class PlayerType { GM, PLAYER };
+
+EMSCRIPTEN_BINDINGS(player_type_bind) {
+    emscripten::enum_<PlayerType>("PlayerType")
+        .value("GM", PlayerType::GM)
+        .value("PLAYER", PlayerType::PLAYER);
+}
 
 // Main code
 int main(int, char**) {
@@ -161,8 +175,18 @@ int main(int, char**) {
 
     // Main loop
     bool done = false;
-    bool isGM = false;
-    squigrodeo::CompanionApp app(isGM);
+
+    emscripten::val obr_sdk = emscripten::val::global("obr_sdk");
+
+    if (!obr_sdk.as<bool>()) {
+        std::cerr << "[FAILURE] Could not get obr_sdk" << std::endl;
+    } else {
+        std::cout << "[SUCCESS] Found SDK" << std::endl;
+    }
+
+    emscripten_obr_sdk::OBR OBR = emscripten_obr_sdk::OBR(obr_sdk["default"]);
+
+    squigrodeo::CompanionApp app(OBR);
 
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not
