@@ -5,10 +5,11 @@
 void squigrodeo::Bestiary::renderWindow() {
     if (ImGui::BeginTabBar("BestiaryTabBar",
                            ImGuiTabBarFlags_AutoSelectNewTabs)) {
-        if (ImGui::TabItemButton(
-                "+", ImGuiTabItemFlags_Trailing | ImGuiTabItemFlags_NoTooltip))
-            monsters.emplace_back("monsters_" +
-                                  std::to_string(monsters.size()));
+        if (ImGui::TabItemButton("+", ImGuiTabItemFlags_Trailing |
+                                          ImGuiTabItemFlags_NoTooltip)) {
+            monsters.emplace_back("monsters_" + std::to_string(nextId));
+            ++nextId;
+        }
 
         for (int idx = 0; idx < monsters.size();) {
             bool open = true;

@@ -5,10 +5,11 @@
 void squigrodeo::CharacterList::renderWindow() {
     if (ImGui::BeginTabBar("CharacterListTabBar",
                            ImGuiTabBarFlags_AutoSelectNewTabs)) {
-        if (ImGui::TabItemButton(
-                "+", ImGuiTabItemFlags_Trailing | ImGuiTabItemFlags_NoTooltip))
-            characters.emplace_back("characters_" +
-                                    std::to_string(characters.size()));
+        if (ImGui::TabItemButton("+", ImGuiTabItemFlags_Trailing |
+                                          ImGuiTabItemFlags_NoTooltip)) {
+            characters.emplace_back("characters_" + std::to_string(nextId));
+            ++nextId;
+        }
 
         for (int idx = 0; idx < characters.size();) {
             bool open = true;
