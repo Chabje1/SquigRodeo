@@ -18,7 +18,9 @@ class CompanionApp {
    public:
     CompanionApp(emscripten_obr_sdk::OBR OBR);
 
-    void renderMainMode();
+    void render();
+
+    void renderMainView();
 
     void sendMessage();
 
@@ -31,7 +33,7 @@ class CompanionApp {
     bool isGM;
     CharacterList characterList;
     Bestiary bestiary;
-    Viewable* focusedViewable;
+    Viewable* focusedViewable = nullptr;
     std::set<InitiativeEntry> combatInitative;
 
     emscripten_obr_sdk::OBR OBR;

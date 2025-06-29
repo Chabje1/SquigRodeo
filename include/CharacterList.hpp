@@ -6,7 +6,7 @@
 
 namespace squigrodeo {
 struct CharacterList {
-    std::vector<CharacterSheet> monsters;
+    std::vector<CharacterSheet> characters;
 
     void renderWindow();
 };

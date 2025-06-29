@@ -26,18 +26,35 @@ squigrodeo::CompanionApp::CompanionApp(emscripten_obr_sdk::OBR iOBR)
     }
 }
 
-void squigrodeo::CompanionApp::renderMainMode() {
+void squigrodeo::CompanionApp::render() {
+    if (ImGui::BeginTabBar("CompanionMainTabBar")) {
+        if (ImGui::BeginTabItem("Home")) {
+            renderMainView();
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Character List")) {
+            characterList.renderWindow();
+            ImGui::EndTabItem();
+        }
+        if (isGM && ImGui::BeginTabItem("Bestiary")) {
+            bestiary.renderWindow();
+            ImGui::EndTabItem();
+        }
+        if (focusedViewable && ImGui::BeginTabItem("Focused Editor")) {
+            focusedViewable->renderEditor();
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+    }
+}
+
+void squigrodeo::CompanionApp::renderMainView() {
     //
     ImGui::BeginChild("CompanionChildTL",
                       ImVec2(ImGui::GetContentRegionAvail().x * 0.5f,
                              COMPANION_SIDE2SIDE_WINDOW_LENGTHS));
 
     ImGui::PushItemWidth(100);
-    ImGui::Button("Character List", ImVec2(-1, 0));
-
-    if (isGM && ImGui::Button("Bestiary", ImVec2(-1, 0))) {
-    }
-
     ImGui::Button("Battle Mode", ImVec2(-1, 0));
     ImGui::PopItemWidth();
 
@@ -98,10 +115,6 @@ void squigrodeo::CompanionApp::renderMainMode() {
             successes);
         sendMessage();
     }
-
-    if (chatMessageHead >= MAX_MESSAGE_HISTORY_SIZE) {
-        chatMessageHead = 0;
-    }
 }
 
 int squigrodeo::CompanionApp::rollDice() {
@@ -120,10 +133,18 @@ void squigrodeo::CompanionApp::sendMessage() {
     ++chatMessageHead;
 
     OBR.broadcast.sendMessage("chatMessages", std::string(tempMessageBuffer));
+
+    if (chatMessageHead >= MAX_MESSAGE_HISTORY_SIZE) {
+        chatMessageHead = 0;
+    }
 }
 
 void squigrodeo::CompanionApp::chatMessageCallback(
     emscripten_obr_sdk::MessageEvent<std::string> event) {
     strcpy(chatMessages[chatMessageHead], event.data.data());
     ++chatMessageHead;
+
+    if (chatMessageHead >= MAX_MESSAGE_HISTORY_SIZE) {
+        chatMessageHead = 0;
+    }
 }

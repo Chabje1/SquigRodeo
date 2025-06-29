@@ -243,7 +243,7 @@ int main(int, char**) {
 
         ImGui::Begin("SquigRodeo", nullptr, flags);
 
-        app.renderMainMode();
+        app.render();
 
         ImGui::End();
 
