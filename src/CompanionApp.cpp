@@ -7,7 +7,9 @@
 constexpr int COMPANION_SIDE2SIDE_WINDOW_LENGTHS = 260;
 
 squigrodeo::CompanionApp::CompanionApp(emscripten_obr_sdk::OBR iOBR)
-    : OBR{iOBR},
+    : characterList{this->focusedViewable},
+      bestiary{this->focusedViewable},
+      OBR{iOBR},
       randomDevice{},
       engine{randomDevice()},
       d6Distribution{1, 6},
@@ -41,7 +43,7 @@ void squigrodeo::CompanionApp::render() {
             ImGui::EndTabItem();
         }
         if (focusedViewable && ImGui::BeginTabItem("Focused Editor")) {
-            focusedViewable->renderEditor();
+            focusedViewable->renderEditor("focusedEditor");
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
@@ -87,7 +89,7 @@ void squigrodeo::CompanionApp::renderMainView() {
                       ImGuiChildFlags_Border);
 
     if (focusedViewable) {
-        focusedViewable->renderViewer();
+        focusedViewable->renderViewer("focusedView");
     }
 
     ImGui::EndChild();

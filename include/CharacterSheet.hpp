@@ -63,8 +63,8 @@ class CharacterSheet : public Viewable {
           mad{name + "_mad"} {}
 
     // Render Functions
-    void renderViewer() override;
-    void renderEditor() override;
+    void renderViewer(const std::string &renderId) override;
+    void renderEditor(const std::string &renderId) override;
 
     // Getter Functions
     int getUsedXP();

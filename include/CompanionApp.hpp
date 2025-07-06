@@ -16,7 +16,9 @@ constexpr std::size_t MAX_MESSAGE_SIZE = 200;
 
 class CompanionApp {
    public:
-    CompanionApp(emscripten_obr_sdk::OBR OBR);
+    CompanionApp(
+        // emscripten_obr_sdk::OBR OBR
+    );
 
     void render();
 
@@ -30,13 +32,13 @@ class CompanionApp {
         emscripten_obr_sdk::MessageEvent<std::string> event);
 
    private:
-    bool isGM;
+    bool isGM = true;
     CharacterList characterList;
     Bestiary bestiary;
     Viewable* focusedViewable = nullptr;
     std::set<InitiativeEntry> combatInitative;
 
-    emscripten_obr_sdk::OBR OBR;
+    // emscripten_obr_sdk::OBR OBR;
 
     Party party;
 

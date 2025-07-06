@@ -145,22 +145,22 @@ int squigrodeo::AttributeTable::getUsedXP() {
     return totalCost;
 }
 
-void squigrodeo::CharacterSheet::renderEditor() {
+void squigrodeo::CharacterSheet::renderEditor(const std::string& renderId) {
     // Display Character Name
     ImGui::Text("Character Name: ");
     ImGui::SameLine();
-    ImGui::InputText(("##" + charName + "_display_name").data(), &charName);
+    ImGui::InputText(("##" + renderId + "_display_name").data(), &charName);
 
     // Display XP
     int remainingXp = xpCount - getUsedXP();
     ImGui::Text("XP: %d / ", remainingXp);
     ImGui::SameLine();
-    ImGui::InputInt(("##" + charName + "_xp").data(), &xpCount);
+    ImGui::InputInt(("##" + renderId + "_xp").data(), &xpCount);
 
     ImGui::Separator();
 
     // Left Child Window
-    ImGui::BeginChild((charName + "_child_l").data(),
+    ImGui::BeginChild((renderId + "_child_l").data(),
                       ImVec2(ImGui::GetContentRegionAvail().x * 0.5f,
                              ImGui::GetContentRegionAvail().y));
     skills.render();
@@ -169,7 +169,7 @@ void squigrodeo::CharacterSheet::renderEditor() {
     ImGui::SameLine();
 
     // Right Child Window
-    ImGui::BeginChild((charName + "_child_r").data(),
+    ImGui::BeginChild((renderId + "_child_r").data(),
                       ImVec2(0, ImGui::GetContentRegionAvail().y));
 
     attributes.render();
@@ -177,7 +177,7 @@ void squigrodeo::CharacterSheet::renderEditor() {
     ImGui::Separator();
 
     // Display Implicit Stats Table
-    if (ImGui::BeginTable((charName + "_implicit_stats").data(), 2,
+    if (ImGui::BeginTable((renderId + "_implicit_stats").data(), 2,
                           ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
         // Display Currency
         ImGui::TableNextRow();
@@ -186,7 +186,7 @@ void squigrodeo::CharacterSheet::renderEditor() {
         ImGui::Text("Aqua Ghyranis");
 
         ImGui::TableSetColumnIndex(1);
-        ImGui::InputInt(("##" + charName + "_aqua_ghyranis").data(),
+        ImGui::InputInt(("##" + renderId + "_aqua_ghyranis").data(),
                         &aquaGhyranis);
 
         // Initiative
@@ -214,7 +214,7 @@ void squigrodeo::CharacterSheet::renderEditor() {
         ImGui::Text("Mettle");
 
         ImGui::TableSetColumnIndex(1);
-        ImGui::InputInt(("##" + charName + "_remaining_mettle").data(),
+        ImGui::InputInt(("##" + renderId + "_remaining_mettle").data(),
                         &remainingMettle);
         ImGui::SameLine();
         ImGui::Text("/ %u", getTotalMettle());
@@ -226,7 +226,7 @@ void squigrodeo::CharacterSheet::renderEditor() {
         ImGui::Text("Armour");
 
         ImGui::TableSetColumnIndex(1);
-        ImGui::InputInt(("##" + charName + "_armour").data(), &armour);
+        ImGui::InputInt(("##" + renderId + "_armour").data(), &armour);
 
         // Toughness
         ImGui::TableNextRow();
@@ -235,7 +235,7 @@ void squigrodeo::CharacterSheet::renderEditor() {
         ImGui::Text("Toughness");
 
         ImGui::TableSetColumnIndex(1);
-        ImGui::InputInt(("##" + charName + "_remaining_toughness").data(),
+        ImGui::InputInt(("##" + renderId + "_remaining_toughness").data(),
                         &remainingToughness);
         ImGui::SameLine();
         ImGui::Text("/ %u", getTotalToughness());
@@ -247,7 +247,7 @@ void squigrodeo::CharacterSheet::renderEditor() {
         ImGui::Text("Wounds");
 
         ImGui::TableSetColumnIndex(1);
-        ImGui::InputInt(("##" + charName + "_wounds").data(), &remainingWounds);
+        ImGui::InputInt(("##" + renderId + "_wounds").data(), &remainingWounds);
         ImGui::SameLine();
         ImGui::Text("/ %u", getTotalWounds());
 
@@ -265,24 +265,24 @@ void squigrodeo::CharacterSheet::renderEditor() {
     // Display Has Shield? Checkbox
     ImGui::Text("Has Shield?");
     ImGui::SameLine();
-    ImGui::Checkbox(("Toggle##" + charName + "_has_shield_toggle").data(),
+    ImGui::Checkbox(("Toggle##" + renderId + "_has_shield_toggle").data(),
                     &hasShield);
 
     // Display Short Term Goal
     ImGui::Text("Short Term Goal");
-    ImGui::InputTextMultiline(("##" + charName + "_short_term_goal").data(),
+    ImGui::InputTextMultiline(("##" + renderId + "_short_term_goal").data(),
                               &shortTermGoal,
                               ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 8));
 
     // Display Long Term Goal
     ImGui::Text("Long Term Goal");
-    ImGui::InputTextMultiline(("##" + charName + "_long_term_goal").data(),
+    ImGui::InputTextMultiline(("##" + renderId + "_long_term_goal").data(),
                               &longTermGoal,
                               ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 8));
     ImGui::EndChild();
 }
 
-void squigrodeo::CharacterSheet::renderViewer() {
+void squigrodeo::CharacterSheet::renderViewer(const std::string& renderId) {
     // TODO
 }
 

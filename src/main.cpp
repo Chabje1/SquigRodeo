@@ -46,7 +46,7 @@ int main(int, char**) {
     // Setup SDL
     // [If using SDL_MAIN_USE_CALLBACKS: all code below until the main loop
     // starts would likely be your SDL_AppInit() function]
-    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         printf("Error: SDL_Init(): %s\n", SDL_GetError());
         return -1;
     }
@@ -217,7 +217,7 @@ int main(int, char**) {
             if (event.type == SDL_EVENT_QUIT) done = true;
             if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED &&
                 event.window.windowID == SDL_GetWindowID(window))
-                done = true;
+                        done = true;
         }
 
         // [If using SDL_MAIN_USE_CALLBACKS: all code below would likely be your

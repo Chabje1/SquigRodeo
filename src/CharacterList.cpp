@@ -3,28 +3,50 @@
 #include "imgui.h"
 
 void squigrodeo::CharacterList::renderWindow() {
-    if (ImGui::BeginTabBar("CharacterListTabBar",
-                           ImGuiTabBarFlags_AutoSelectNewTabs)) {
-        if (ImGui::TabItemButton("+", ImGuiTabItemFlags_Trailing |
-                                          ImGuiTabItemFlags_NoTooltip)) {
-            characters.emplace_back("characters_" + std::to_string(nextId));
-            ++nextId;
-        }
+    if (characters.size() != 0) {
+        if (ImGui::BeginCombo("##CharacterListComboMenu",
+                              characters[selectedCharacter].getName().data())) {
+            for (int idx = 0; idx < characters.size(); idx++) {
+                const bool is_selected = (selectedCharacter == idx);
 
-        for (int idx = 0; idx < characters.size();) {
-            bool open = true;
-            if (ImGui::BeginTabItem(characters[idx].getName().data(), &open,
-                                    ImGuiTabItemFlags_None)) {
-                characters[idx].renderEditor();
-                ImGui::EndTabItem();
+                if (ImGui::Selectable(
+                        (characters[idx].getName() +
+                         "##CharacterListComboMenu_item_" + std::to_string(idx))
+                            .data(),
+                        is_selected)) {
+                    selectedCharacter = idx;
+                }
+
+                // Set the initial focus when opening the combo (scrolling +
+                // keyboard navigation focus)
+                if (is_selected) ImGui::SetItemDefaultFocus();
             }
 
-            if (!open)
-                characters.erase(std::next(characters.begin(), idx));
-            else
-                idx++;
+            ImGui::EndCombo();
         }
 
-        ImGui::EndTabBar();
+        ImGui::SameLine();
+    }
+
+    if (ImGui::Button("+")) {
+        characters.emplace_back("<Character Name>");
+    }
+
+    if (characters.size() != 0) {
+        ImGui::SameLine();
+
+        if (ImGui::Button("-")) {
+            characters.erase(std::next(characters.begin(), selectedCharacter));
+            selectedCharacter = 0;
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button(
+                "Play this Character##CharacterListEditor_play_button")) {
+            parentFocused = &characters[selectedCharacter];
+        }
+
+        characters[selectedCharacter].renderEditor("CharacterListEditor");
     }
 }
